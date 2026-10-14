@@ -28,30 +28,37 @@ export const modelVersions: Scene = {
           - name: amount_total`,
     },
     {
-      id: 'resolves',
-      kind: 'table',
-      label: 'How refs resolve',
-      headers: ['in the code', 'builds from'],
-      values: [
-        ["ref('fct_orders')", 'dbt_alice_marts.fct_orders_v1 + warning'],
-        ["ref('fct_orders', v=1)", 'dbt_alice_marts.fct_orders_v1'],
-        ["ref('fct_orders', v=2)", 'dbt_alice_marts.fct_orders_v2'],
-      ],
-    },
-    {
-      id: 'access-levels',
-      label: 'access:',
+      id: 'resolves-row',
+      label: 'Resolving and access',
       pattern: 'group',
       flow: 'LR',
       children: [
-        { id: 'private', label: 'private', sub: 'its own group only', pattern: 'warn', icon: 'lock' },
-        { id: 'protected', label: 'protected', sub: 'this project — default', pattern: 'service', icon: 'shieldcheck' },
-        { id: 'public', label: 'public', sub: 'other projects too', pattern: 'external', icon: 'globe' },
+        {
+          id: 'resolves',
+          kind: 'table',
+          label: 'How refs resolve',
+          headers: ['in the code', 'builds from'],
+          values: [
+            ["ref('fct_orders')", 'dbt_alice_marts.fct_orders_v1 + warning'],
+            ["ref('fct_orders', v=1)", 'dbt_alice_marts.fct_orders_v1'],
+            ["ref('fct_orders', v=2)", 'dbt_alice_marts.fct_orders_v2'],
+          ],
+        },
+        {
+          id: 'access-levels',
+          label: 'access:',
+          pattern: 'group',
+          flow: 'TB',
+          children: [
+            { id: 'private', label: 'private', sub: 'its own group only', pattern: 'warn', icon: 'lock' },
+            { id: 'protected', label: 'protected', sub: 'this project — default', pattern: 'service', icon: 'shieldcheck' },
+            { id: 'public', label: 'public', sub: 'other projects too', pattern: 'external', icon: 'globe' },
+          ],
+        },
       ],
     },
   ],
   edges: [
-    { source: 'versions-yml', target: 'resolves' },
-    { source: 'resolves', target: 'access-levels' },
+    { source: 'versions-yml', target: 'resolves-row' },
   ],
 }

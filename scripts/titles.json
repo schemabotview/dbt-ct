@@ -3,5 +3,6 @@
   "first-build": "dbt Tutorial for Beginners: Your First Model, ref and dbt build",
   "sources": "dbt Sources, Freshness, Seeds and Project Structure Explained",
   "models": "dbt Data Modeling: Grain, Facts, Dimensions and Materializations",
-  "quality": "dbt Tests, Unit Tests and Model Contracts Explained"
+  "quality": "dbt Tests, Unit Tests and Model Contracts Explained",
+  "jinja": "dbt Jinja and Macros Explained: Loops, Packages, Dispatch, Hooks"
 }

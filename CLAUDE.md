@@ -32,7 +32,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 | 2 | `sources` | Sources, Dependencies, and Project Organisation | 8 | authored — wavs pending |
 | 3 | `models` | Analytical Models and Materialization Choices | 7 | authored — wavs pending |
 | 4 | `quality` | Tests, Documentation, and Model Contracts | 8 | authored — wavs pending |
-| 5 | `jinja` | Jinja, Macros, and Reusable Compilation | 8 | not started |
+| 5 | `jinja` | Jinja, Macros, and Reusable Compilation | 8 | authored — wavs pending |
 | 6 | `incremental` | Incremental Models and Historical State | 8 | not started |
 | 7 | `selection` | Selection, Artefacts, and Efficient Execution | 8 | not started |
 | 8 | `deployment` | Deployment, Collaboration, and Governance | 8 | not started |
@@ -51,6 +51,9 @@ Course 3 sections: `grain-and-fan-out`, `facts-and-dimensions`, `time-and-histor
 
 Course 4 sections: `generic-tests`, `singular-tests`, `severity-and-failures`, `unit-tests`,
 `docs-and-exposures`, `model-contracts`, `versions-and-access`, `coverage-and-confidence`.
+
+Course 5 sections: `jinja-in-dbt`, `vars-and-loops`, `macros`, `hidden-dependencies`, `packages`,
+`dispatch`, `side-effects`, `python-models`.
 
 ## The recurring example
 
@@ -144,6 +147,14 @@ is authored: id, shape (diagram / code card), courses that use it.
 | `contract` | contract YAML (Snowflake types) + real violation + Snowflake constraint table | quality §6 |
 | `model-versions` | versions YAML + ref-resolution table + access band | quality §7 |
 | `coverage` | establishes / does-not table + unchecked-gaps column | quality §8 |
+| `jinja-stages` | Jinja source + row (two-renders column, context table) | jinja §1 |
+| `loop-pivot` | loop source + compiled excerpt + pivot rows | jinja §2 |
+| `macros` | `cents_to_dollars` + `generate_schema_name` override + landing table | jinja §3 |
+| `hidden-ref` | conditional `ref` + real compilation error + `depends_on` hint | jinja §4 |
+| `packages` | `packages.yml` (hub + git) + row (real lock, what-you-depend-on) | jinja §5 |
+| `dispatch` | dispatched macro + per-adapter compiled cards | jinja §6 |
+| `side-effects` | frozen `run_query` result + ways-Jinja-runs-SQL table + execute guard | jinja §7 |
+| `python-model` | Snowpark model + row (where-it-runs, SQL-or-Python table) | jinja §8 |
 
 `first-model` and `first-build-results` carry the recurring example's first state; later courses
 should extend these models rather than introduce new names.
@@ -175,6 +186,10 @@ should extend these models rather than introduce new names.
 - `cols:` on a container is re-ranked by its internal edges — use it only for edge-free grids.
 - A wide-and-short board: nest two `TB` columns side by side under one `LR` group, or move a
   side node below the main chain.
+- A tall board with a wide band scales **everything** down — code becomes unreadable while the
+  area target still passes. Pair two bands side by side in a row group (code on top, row below);
+  `npm run check:density` now fails body text under 12px.
+- Slides: author to a modelled 960–1000px. Chip-heavy slides model high, so expect ~82 % rendered.
 
 ## Layout rules the frames actually care about
 
@@ -215,6 +230,7 @@ builds green, reads correctly, and leaves half its pane empty. Against the ~1080
 | scene, binding axis | ≥ 0.85 of the pane | the board should reach the edge it is limited by |
 | scene, area | ≥ 0.55 of the pane (w × h) | a wide board that fills the width but a third of the height wastes the pane |
 | eyebrow | no node under the top-left eyebrow label | boards that bind on height run up to y≈30 |
+| board text | smallest rendered body glyph (not the 12px code caption) ≥ **12px** at 1920×1080 | one wide band scales the whole board down until code is unreadable |
 
 Levers: **add real content, not padding**; **restack** a board toward the pane's ~1:1 aspect; lower
 scene `padding` to 0.04 for boards that float, **raise** it (0.12–0.17) for tall boards that touch

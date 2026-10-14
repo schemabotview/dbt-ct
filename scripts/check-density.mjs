@@ -6,6 +6,8 @@
 //   slide   80–95 % of the slide pane's height, and not clipped
 //   scene   binding axis ≥ 0.85 of the scene pane, area (w × h of the node bounding box) ≥ 0.55
 //   eyebrow no node under the top-left eyebrow label
+//   text    the smallest rendered BODY glyph on the board ≥ 12px — a board can fill its pane and still be
+//           unreadable when one wide band forces the engine to scale everything down
 //
 // Run: npm run dev  (in another shell), then  npm run check:density [-- <courseId>|<slug> ...]
 // Chromium: PUPPETEER_EXECUTABLE_PATH, else puppeteer's own download.
@@ -31,7 +33,7 @@ const page = await browser.newPage()
 await page.setViewport({ width: 1920, height: 1080 })
 const mark = (ok) => (ok ? '  ' : '✗ ')
 let off = 0
-console.log('section'.padEnd(46), 'slide  ', 'scene w', ' h  ', ' area ', 'eyebrow')
+console.log('section'.padEnd(46), 'slide  ', 'scene w', ' h  ', ' area ', ' text  ', 'eyebrow')
 for (const slug of slugs) {
   await page.goto(`${BASE}?capture=1#/${slug}`, { waitUntil: 'networkidle0' })
   await new Promise((r) => setTimeout(r, 900))
@@ -43,7 +45,18 @@ for (const slug of slugs) {
     const eb = document.querySelector('.reel-head__eyebrow').getBoundingClientRect()
     const panel = document.querySelector('.slide-panel').getBoundingClientRect()
     const sc = document.querySelector('.slide-panel__scaler').getBoundingClientRect()
+    const k = new DOMMatrix(getComputedStyle(document.querySelector('.react-flow__viewport')).transform).a
+    const text = Math.min(
+      ...[...document.querySelectorAll('.react-flow__node *')]
+        .filter((e) => [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()))
+        .map((e) => parseFloat(getComputedStyle(e).fontSize))
+        // body text only: code lines, card labels and subs, table cells (≥ 13px before scaling). A code
+        // card's filename caption is 12px by design and would set the floor on every frame.
+        .filter((f) => f >= 13)
+        .map((f) => f * k),
+    )
     return {
+      text,
       w: (x1 - x0) / pane.width,
       h: (y1 - y0) / pane.height,
       under: rs.some((r) => r.top < eb.bottom + 8 && r.left < eb.right + 8),
@@ -54,13 +67,15 @@ for (const slug of slugs) {
   const okSlide = m.slide >= 0.8 && m.slide <= 0.95 && !m.clip
   const okBind = Math.max(m.w, m.h) >= 0.85
   const okArea = m.w * m.h >= 0.55
-  if (!okSlide || !okBind || !okArea || m.under) off++
+  const okText = m.text >= 12
+  if (!okSlide || !okBind || !okArea || !okText || m.under) off++
   console.log(
     slug.padEnd(46),
     mark(okSlide) + `${(m.slide * 100).toFixed(0)}%${m.clip ? ' CLIP' : ''}`.padEnd(5),
     mark(okBind) + m.w.toFixed(2),
     m.h.toFixed(2),
     mark(okArea) + (m.w * m.h).toFixed(2),
+    mark(okText) + `${m.text.toFixed(1)}px`.padEnd(6),
     m.under ? '✗ under' : '  ok',
   )
 }

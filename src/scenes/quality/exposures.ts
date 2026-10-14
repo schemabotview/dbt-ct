@@ -24,38 +24,45 @@ export const exposures: Scene = {
       - ref('dim_customers')`,
     },
     {
-      id: 'lineage',
-      label: 'Lineage, now with its consumer',
+      id: 'lineage-row',
+      label: 'Lineage and selection',
       pattern: 'group',
       flow: 'LR',
       children: [
-        { id: 'e-fct', label: 'Order facts', sub: 'fct_orders', pattern: 'storage', icon: 'table' },
-        { id: 'e-dim', label: 'Customers', sub: 'dim_customers', pattern: 'storage', icon: 'users' },
-        { id: 'dashboard', label: 'Revenue dashboard', sub: 'exposure — owner: Finance', pattern: 'user', icon: 'barchart' },
+        {
+          id: 'lineage',
+          label: 'Lineage, now with its consumer',
+          pattern: 'group',
+          flow: 'TB',
+          children: [
+            { id: 'e-fct', label: 'Order facts', sub: 'fct_orders', pattern: 'storage', icon: 'table' },
+            { id: 'e-dim', label: 'Customers', sub: 'dim_customers', pattern: 'storage', icon: 'users' },
+            { id: 'dashboard', label: 'Revenue dashboard', sub: 'exposure — owner: Finance', pattern: 'user', icon: 'barchart' },
+          ],
+          edges: [
+            { source: 'e-fct', target: 'e-dim' },
+            { source: 'e-dim', target: 'dashboard' },
+          ],
+        },
+        {
+          id: 'exposure-select',
+          kind: 'code',
+          hug: true,
+          filename: '$ dbt ls -s +exposure:revenue_dashboard   (excerpt)',
+          label: `exposure:shop.revenue_dashboard
+    shop.marts.dim_customers
+    shop.marts.fct_orders
+    shop.intermediate.int_order_payments
+    shop.staging.stg_orders
+    shop.staging.stg_payments
+    shop.staging.stg_customers
+    source:shop.shop.orders
+    …  + 3 sources, 5 data tests, 1 unit test`,
+        },
       ],
-      edges: [
-        { source: 'e-fct', target: 'e-dim' },
-        { source: 'e-dim', target: 'dashboard' },
-      ],
-    },
-    {
-      id: 'exposure-select',
-      kind: 'code',
-      hug: true,
-      filename: '$ dbt ls -s +exposure:revenue_dashboard   (excerpt)',
-      label: `exposure:shop.revenue_dashboard
-shop.marts.dim_customers
-shop.marts.fct_orders
-shop.intermediate.int_order_payments
-shop.staging.stg_orders
-shop.staging.stg_payments
-shop.staging.stg_customers
-source:shop.shop.orders
-…  + 3 sources, 5 data tests, 1 unit test`,
     },
   ],
   edges: [
-    { source: 'exposure-yml', target: 'lineage' },
-    { source: 'lineage', target: 'exposure-select' },
+    { source: 'exposure-yml', target: 'lineage-row' },
   ],
 }
