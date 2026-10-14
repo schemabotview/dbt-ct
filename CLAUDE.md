@@ -34,7 +34,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 | 4 | `quality` | Tests, Documentation, and Model Contracts | 8 | authored — wavs pending |
 | 5 | `jinja` | Jinja, Macros, and Reusable Compilation | 8 | authored — wavs pending |
 | 6 | `incremental` | Incremental Models and Historical State | 8 | authored — wavs pending |
-| 7 | `selection` | Selection, Artefacts, and Efficient Execution | 8 | not started |
+| 7 | `selection` | Selection, Artefacts, and Efficient Execution | 8 | authored — wavs pending |
 | 8 | `deployment` | Deployment, Collaboration, and Governance | 8 | not started |
 | 9 | `operations` | Operations, Failure Recovery, and Evolution | 7 | not started |
 | 10 | `metrics` | Metrics, Integrated Design, and Continuation | 5 | not started |
@@ -57,6 +57,9 @@ Course 5 sections: `jinja-in-dbt`, `vars-and-loops`, `macros`, `hidden-dependenc
 
 Course 6 sections: `is-incremental`, `watermarks`, `strategies`, `late-data`, `schema-changes`,
 `full-refresh`, `snapshots`, `snapshot-limits`.
+
+Course 7 sections: `graph-operators`, `test-selection`, `artefacts`, `state-comparison`, `deferral`,
+`threads-and-cost`, `query-evidence`, `retry`.
 
 ## The recurring example
 
@@ -171,6 +174,14 @@ is authored: id, shape (diagram / code card), courses that use it.
 | `full-refresh` | reconcile SQL + repair column + bounded backfill | incremental §6 |
 | `snapshot` | snapshot YAML (check strategy) + two-run history rows | incremental §7 |
 | `snapshot-limits` | row (missed flip, hard_deletes table) + source-data warning | incremental §8 |
+| `graph-operators` | real selector→result table + YAML selector | selection §1 |
+| `test-selection` | eager/cautious table + build-order column + real skip log | selection §2 |
+| `artefacts` | artefact table + run_results node (Snowflake fields) | selection §3 |
+| `state-modified` | macro diff + real `state:modified` / `+` outputs | selection §4 |
+| `defer` | real mixed-env compiled SQL + resolution table + warning | selection §5 |
+| `threads` | real out-of-order log + row (time column, threads table) | selection §6 |
+| `query-evidence` | row (evidence chain, what-each-shows table) | selection §7 |
+| `retry` | real failing build + real `dbt retry` (8 of 11) | selection §8 |
 
 `first-model` and `first-build-results` carry the recurring example's first state; later courses
 should extend these models rather than introduce new names.
