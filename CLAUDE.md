@@ -28,7 +28,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 
 | # | course id | title | plan sections | status |
 | --- | --- | --- | --- | --- |
-| 1 | `first-build` | Analytics Engineering and a First Build | 6 | not started |
+| 1 | `first-build` | Analytics Engineering and a First Build | 6 | authored — wavs pending |
 | 2 | `sources` | Sources, Dependencies, and Project Organisation | 8 | not started |
 | 3 | `models` | Analytical Models and Materialization Choices | 7 | not started |
 | 4 | `quality` | Tests, Documentation, and Model Contracts | 8 | not started |
@@ -39,9 +39,9 @@ slide inside the density targets splits in two, and the split is recorded here).
 | 9 | `operations` | Operations, Failure Recovery, and Evolution | 7 | not started |
 | 10 | `metrics` | Metrics, Integrated Design, and Continuation | 5 | not started |
 
-The `demo` course from the template is still registered so a fresh clone builds and `npm run check`
-passes. It is deleted (`src/content/demo`, `src/scenes/demo`, `public/audio/demo`, both registries,
-its `titles.json` entry) in the same change that lands `first-build`.
+Course 1 sections, in order: `what-dbt-does`, `four-layers`, `project-and-profile`,
+`first-model-and-ref`, `compile-vs-run`, `first-results`. The template's `demo` course was deleted
+when `first-build` landed.
 
 ## The recurring example
 
@@ -58,9 +58,8 @@ as an organising pattern, not mandatory architecture.
 
 ## Content rules from the plan
 
-- **Toolchain:** dbt Core CLI, SQL-first, Snowflake as the warehouse. Pin the dbt Core, adapter and
-  package versions before the first section is authored, and record them here; every command flag
-  and config key on a slide is checked against that pinned version's docs.
+- **Toolchain:** dbt Core CLI, SQL-first, Snowflake as the warehouse. Every command flag and config
+  key on a slide is checked against the pinned versions below.
 - **Snowflake-specific behaviour is labelled** as such (dynamic tables, `merge` specifics, grants),
   never presented as portable dbt semantics. Hosted-platform, Fusion, Python-model and Semantic
   Layer features carry an eligibility caveat.
@@ -71,12 +70,42 @@ as an organising pattern, not mandatory architecture.
 - **Compilation, execution and orchestration are kept visibly separate** — dbt compiles, the
   warehouse executes, a scheduler orchestrates.
 
+## Version pin
+
+Chosen 2026-10-14. **dbt v1** — the Python engine — is the course's primary illustration, by the
+owner's decision, though new installs now default to **dbt v2** (the Rust engine, open-source build
+`dbt-oss` 2.0.x). Say so wherever v2 behaves differently; do not assume parity.
+
+| package | pin | latest seen 2026-10-14 |
+| --- | --- | --- |
+| `dbt-core` | `~=1.12.0` | 1.12.6 |
+| `dbt-snowflake` | `~=1.12.0` | 1.12.3 |
+| packages (dbt_utils etc.) | none yet | — |
+
+**How snippets are verified.** The course's example project is rebuilt in a scratch venv with the
+pinned pair: every YAML/SQL snippet must pass `dbt parse` with the Snowflake profile; compiled SQL is
+real `dbt compile --no-populate-cache` output against that profile (no live connection needed for
+models without introspection). Result rows and log shapes come from a real `dbt build` against a
+local DuckDB copy of the raw tables (`dbt-duckdb` 1.11), rewritten to Snowflake relation names and
+**labelled illustrative** on the slide. `docs.getdbt.com` is not reachable from the authoring
+environment; behaviour claims that cannot be run locally need a docs check before publishing.
+
 ## Scene inventory
 
 Shared scenes (reused across courses with a different `focus:`) are the point — list each here as it
 is authored: id, shape (diagram / code card), courses that use it.
 
-_None yet._
+| scene id | shape | used by |
+| --- | --- | --- |
+| `elt-pipeline` | diagram — load band (TB) beside transform band (BT) | first-build §1 |
+| `dbt-stack` | diagram — platform / machine / Snowflake bands | first-build §2 |
+| `project-and-profile` | two code cards — `dbt_project.yml`, `profiles.yml` | first-build §3 |
+| `first-model` | three code cards — `stg_orders`, `fct_orders`, compiled SQL | first-build §4 |
+| `command-effects` | diagram (dbt side / Snowflake side) + commands table | first-build §5 |
+| `first-build-results` | YAML + build-log code cards, result-rows table | first-build §6 |
+
+`first-model` and `first-build-results` carry the recurring example's first state; later courses
+should extend these models rather than introduce new names.
 
 ## Invariants — do not break
 
