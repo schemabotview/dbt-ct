@@ -29,7 +29,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 | # | course id | title | plan sections | status |
 | --- | --- | --- | --- | --- |
 | 1 | `first-build` | Analytics Engineering and a First Build | 6 | authored — wavs pending |
-| 2 | `sources` | Sources, Dependencies, and Project Organisation | 8 | not started |
+| 2 | `sources` | Sources, Dependencies, and Project Organisation | 8 | authored — wavs pending |
 | 3 | `models` | Analytical Models and Materialization Choices | 7 | not started |
 | 4 | `quality` | Tests, Documentation, and Model Contracts | 8 | not started |
 | 5 | `jinja` | Jinja, Macros, and Reusable Compilation | 8 | not started |
@@ -42,6 +42,9 @@ slide inside the density targets splits in two, and the split is recorded here).
 Course 1 sections, in order: `what-dbt-does`, `four-layers`, `project-and-profile`,
 `first-model-and-ref`, `compile-vs-run`, `first-results`. The template's `demo` course was deleted
 when `first-build` landed.
+
+Course 2 sections: `project-layout`, `declaring-sources`, `source-freshness`, `ref-and-the-dag`,
+`seeds`, `model-layers`, `targets-and-schemas`, `docs-and-ownership`.
 
 ## The recurring example
 
@@ -103,6 +106,14 @@ is authored: id, shape (diagram / code card), courses that use it.
 | `first-model` | three code cards — `stg_orders`, `fct_orders`, compiled SQL | first-build §4 |
 | `command-effects` | diagram (dbt side / Snowflake side) + commands table | first-build §5 |
 | `first-build-results` | YAML + build-log code cards, result-rows table | first-build §6 |
+| `project-layout` | project tree (hugged code card) + 4-step precedence chain | sources §1 |
+| `declaring-sources` | three code cards — `_sources.yml`, `stg_orders` with `source()`, compiled | sources §2 |
+| `source-freshness` | freshness YAML + command output + per-source table | sources §3 |
+| `shop-dag` | diagram — 3 sources → 3 staging → `fct_orders`, + resolution table | sources §4 |
+| `reference-seed` | CSV + `dbt seed` log + seed-or-source table | sources §5 |
+| `model-layers` | staging 2×2 over intermediate / marts side by side | sources §6 |
+| `environment-schemas` | `+schema` config + where-each-model-lands table + alias card | sources §7 |
+| `docs-and-ownership` | YAML + docs-generate tree + source-contract card | sources §8 |
 
 `first-model` and `first-build-results` carry the recurring example's first state; later courses
 should extend these models rather than introduce new names.
@@ -126,6 +137,14 @@ should extend these models rather than introduce new names.
 - **`file:../ui-flow` / `file:../ui-shell` must never be committed.** Local engine work only; CI has
   no sibling checkout.
 - **Narration is never hand-produced.** `.tts` → `.wav` via Colab + Chatterbox only.
+
+## Layout levers that worked
+
+- A **code card has a minimum width**; `hug: true` sizes it to its own text (narrow trees, logs).
+- Scene `padding` **defaults to 0.12**; boards touching the eyebrow need 0.15–0.17.
+- `cols:` on a container is re-ranked by its internal edges — use it only for edge-free grids.
+- A wide-and-short board: nest two `TB` columns side by side under one `LR` group, or move a
+  side node below the main chain.
 
 ## Layout rules the frames actually care about
 
