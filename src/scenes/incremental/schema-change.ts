@@ -7,7 +7,6 @@ export const schemaChange: Scene = {
   id: 'schema-change',
   title: 'Schema changes and deletes',
   flow: 'TB',
-  padding: 0.15,
   nodes: [
     {
       id: 'osc-options',
