@@ -31,7 +31,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 | 1 | `first-build` | Analytics Engineering and a First Build | 6 | authored — wavs pending |
 | 2 | `sources` | Sources, Dependencies, and Project Organisation | 8 | authored — wavs pending |
 | 3 | `models` | Analytical Models and Materialization Choices | 7 | authored — wavs pending |
-| 4 | `quality` | Tests, Documentation, and Model Contracts | 8 | not started |
+| 4 | `quality` | Tests, Documentation, and Model Contracts | 8 | authored — wavs pending |
 | 5 | `jinja` | Jinja, Macros, and Reusable Compilation | 8 | not started |
 | 6 | `incremental` | Incremental Models and Historical State | 8 | not started |
 | 7 | `selection` | Selection, Artefacts, and Efficient Execution | 8 | not started |
@@ -48,6 +48,9 @@ Course 2 sections: `project-layout`, `declaring-sources`, `source-freshness`, `r
 
 Course 3 sections: `grain-and-fan-out`, `facts-and-dimensions`, `time-and-history`,
 `view-table-ephemeral`, `dynamic-tables`, `cost-and-config`, `model-interfaces`.
+
+Course 4 sections: `generic-tests`, `singular-tests`, `severity-and-failures`, `unit-tests`,
+`docs-and-exposures`, `model-contracts`, `versions-and-access`, `coverage-and-confidence`.
 
 ## The recurring example
 
@@ -92,6 +95,11 @@ owner's decision, though new installs now default to **dbt v2** (the Rust engine
 `country`), `int_order_payments` (ephemeral), `fct_orders` (with `amount`), `dim_customers`, seed
 `payment_methods`. Raw: 5 orders (3 returned), 4 payments (order 4 paid twice), 4 customers.
 
+**Version-specific facts confirmed on 1.12.6 (do not regress):** generic-test arguments go under
+`arguments:` (top-level form → `MissingArgumentsPropertyInGenericTestDeprecation`);
+`deprecation_date` is a version property, not a config; a contract on an ephemeral model does
+**not** error (so do not claim it does); dbt-snowflake does not implement `materialized_view`.
+
 **How snippets are verified.** The course's example project is rebuilt in a scratch venv with the
 pinned pair: every YAML/SQL snippet must pass `dbt parse` with the Snowflake profile; compiled SQL is
 real `dbt compile --no-populate-cache` output against that profile (no live connection needed for
@@ -128,6 +136,14 @@ is authored: id, shape (diagram / code card), courses that use it.
 | `dynamic-tables` | dynamic-table config + who-refreshes + materialized-view warning | models §5 |
 | `cost-and-config` | config block + Snowflake config table + when-paid band | models §6 |
 | `model-interfaces` | consumers → interface → change table → what dbt sees | models §7 |
+| `generic-tests` | tests YAML (`arguments:` form) + what-each-asserts table | quality §1 |
+| `singular-test` | test SQL + compiled + how-judged band + singular-vs-generic table | quality §2 |
+| `severity` | threshold YAML + WARN log + stored-failures table | quality §3 |
+| `unit-test` | unit-test YAML + real failing diff | quality §4 |
+| `exposures` | exposure YAML + lineage band + real `dbt ls +exposure:` output | quality §5 |
+| `contract` | contract YAML (Snowflake types) + real violation + Snowflake constraint table | quality §6 |
+| `model-versions` | versions YAML + ref-resolution table + access band | quality §7 |
+| `coverage` | establishes / does-not table + unchecked-gaps column | quality §8 |
 
 `first-model` and `first-build-results` carry the recurring example's first state; later courses
 should extend these models rather than introduce new names.

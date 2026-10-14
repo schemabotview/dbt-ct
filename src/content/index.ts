@@ -1,6 +1,7 @@
 import { firstBuild } from './first-build'
 import { sources } from './sources'
 import { models } from './models'
+import { quality } from './quality'
 import type { Course, Section } from './types'
 
 // Course registry, in syllabus order. Courses are added here as each is authored.
@@ -8,6 +9,7 @@ export const COURSES: Record<string, Course> = {
   [firstBuild.id]: firstBuild,
   [sources.id]: sources,
   [models.id]: models,
+  [quality.id]: quality,
 }
 
 export type { Course, Section }
