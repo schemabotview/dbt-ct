@@ -30,7 +30,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 | --- | --- | --- | --- | --- |
 | 1 | `first-build` | Analytics Engineering and a First Build | 6 | authored — wavs pending |
 | 2 | `sources` | Sources, Dependencies, and Project Organisation | 8 | authored — wavs pending |
-| 3 | `models` | Analytical Models and Materialization Choices | 7 | not started |
+| 3 | `models` | Analytical Models and Materialization Choices | 7 | authored — wavs pending |
 | 4 | `quality` | Tests, Documentation, and Model Contracts | 8 | not started |
 | 5 | `jinja` | Jinja, Macros, and Reusable Compilation | 8 | not started |
 | 6 | `incremental` | Incremental Models and Historical State | 8 | not started |
@@ -45,6 +45,9 @@ when `first-build` landed.
 
 Course 2 sections: `project-layout`, `declaring-sources`, `source-freshness`, `ref-and-the-dag`,
 `seeds`, `model-layers`, `targets-and-schemas`, `docs-and-ownership`.
+
+Course 3 sections: `grain-and-fan-out`, `facts-and-dimensions`, `time-and-history`,
+`view-table-ephemeral`, `dynamic-tables`, `cost-and-config`, `model-interfaces`.
 
 ## The recurring example
 
@@ -85,6 +88,10 @@ owner's decision, though new installs now default to **dbt v2** (the Rust engine
 | `dbt-snowflake` | `~=1.12.0` | 1.12.3 |
 | packages (dbt_utils etc.) | none yet | — |
 
+**Example project state after course 3:** `stg_orders`, `stg_payments`, `stg_customers` (with
+`country`), `int_order_payments` (ephemeral), `fct_orders` (with `amount`), `dim_customers`, seed
+`payment_methods`. Raw: 5 orders (3 returned), 4 payments (order 4 paid twice), 4 customers.
+
 **How snippets are verified.** The course's example project is rebuilt in a scratch venv with the
 pinned pair: every YAML/SQL snippet must pass `dbt parse` with the Snowflake profile; compiled SQL is
 real `dbt compile --no-populate-cache` output against that profile (no live connection needed for
@@ -114,6 +121,13 @@ is authored: id, shape (diagram / code card), courses that use it.
 | `model-layers` | staging 2×2 over intermediate / marts side by side | sources §6 |
 | `environment-schemas` | `+schema` config + where-each-model-lands table + alias card | sources §7 |
 | `docs-and-ownership` | YAML + docs-generate tree + source-contract card | sources §8 |
+| `fan-out` | joined rows table + FAIL/SKIP log + `int_order_payments` fix | models §1 |
+| `facts-and-dimensions` | `fct_orders` and `dim_customers` tables + question card | models §2 |
+| `current-vs-history` | timeline (TB) + attribution table + snapshot pointer — illustrative | models §3 |
+| `three-materializations` | view / table / ephemeral column + compiled CTE | models §4 |
+| `dynamic-tables` | dynamic-table config + who-refreshes + materialized-view warning | models §5 |
+| `cost-and-config` | config block + Snowflake config table + when-paid band | models §6 |
+| `model-interfaces` | consumers → interface → change table → what dbt sees | models §7 |
 
 `first-model` and `first-build-results` carry the recurring example's first state; later courses
 should extend these models rather than introduce new names.
