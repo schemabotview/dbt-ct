@@ -35,7 +35,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 | 5 | `jinja` | Jinja, Macros, and Reusable Compilation | 8 | authored — wavs pending |
 | 6 | `incremental` | Incremental Models and Historical State | 8 | authored — wavs pending |
 | 7 | `selection` | Selection, Artefacts, and Efficient Execution | 8 | authored — wavs pending |
-| 8 | `deployment` | Deployment, Collaboration, and Governance | 8 | not started |
+| 8 | `deployment` | Deployment, Collaboration, and Governance | 8 | authored — wavs pending |
 | 9 | `operations` | Operations, Failure Recovery, and Evolution | 7 | not started |
 | 10 | `metrics` | Metrics, Integrated Design, and Continuation | 5 | not started |
 
@@ -60,6 +60,9 @@ Course 6 sections: `is-incremental`, `watermarks`, `strategies`, `late-data`, `s
 
 Course 7 sections: `graph-operators`, `test-selection`, `artefacts`, `state-comparison`, `deferral`,
 `threads-and-cost`, `query-evidence`, `retry`.
+
+Course 8 sections: `pull-requests`, `ci-targets`, `slim-ci`, `identities-and-grants`, `orchestration`,
+`release-ordering`, `hosted-vs-cli`, `packages-and-governance`.
 
 ## The recurring example
 
@@ -113,6 +116,12 @@ owner's decision, though new installs now default to **dbt v2** (the Rust engine
 `paid_at`), raw payments carry `paid_at`, `_loaded_at`, `currency`; `customers_snapshot` (YAML,
 check strategy on `country`). dbt-snowflake: default strategy merge; `insert_overwrite` replaces the
 whole table; microbatch needs `event_time` on its inputs.
+
+**Course 8 facts confirmed on 1.12.6:** `list_schemas()` is the Jinja route (not
+`adapter.list_schemas`); dropping `target.schema` leaves custom and `_dbt_test__audit` schemas;
+`source_status:fresher+` needs the previous run's `sources.json` in `--state`; `dbt deps` ignores a
+`projects:` entry and a cross-project `ref` fails in Core; dbt Core attempts anonymous usage
+tracking unless `flags: send_anonymous_usage_stats: false` (or `DO_NOT_TRACK=1`).
 
 **How snippets are verified.** The course's example project is rebuilt in a scratch venv with the
 pinned pair: every YAML/SQL snippet must pass `dbt parse` with the Snowflake profile; compiled SQL is
@@ -182,6 +191,14 @@ is authored: id, shape (diagram / code card), courses that use it.
 | `threads` | real out-of-order log + row (time column, threads table) | selection §6 |
 | `query-evidence` | row (evidence chain, what-each-shows table) | selection §7 |
 | `retry` | real failing build + real `dbt retry` (8 of 11) | selection §8 |
+| `change-path` | row (branch→prod column, reviewer table) | deployment §1 |
+| `ci-schema` | CI profile output + prefix-drop macro + left-behind table | deployment §2 |
+| `slim-ci` | Slim CI command + real PR-123 log + shows / does-not table | deployment §3 |
+| `identities` | identity table + row (grants config, secrets column) | deployment §4 |
+| `orchestration` | job-order column + real `source_status:fresher+` output | deployment §5 |
+| `release-order` | row (release steps, compatible-or-not table) | deployment §6 |
+| `hosted-vs-cli` | comparison table + same-either-way column | deployment §7 |
+| `governance` | package-vs-project table + real Core error + telemetry flag | deployment §8 |
 
 `first-model` and `first-build-results` carry the recurring example's first state; later courses
 should extend these models rather than introduce new names.

@@ -6,5 +6,6 @@
   "quality": "dbt Tests, Unit Tests and Model Contracts Explained",
   "jinja": "dbt Jinja and Macros Explained: Loops, Packages, Dispatch, Hooks",
   "incremental": "dbt Incremental Models and Snapshots: Late Data, Merge, SCD2",
-  "selection": "dbt Node Selection, State, Defer and Retry Explained"
+  "selection": "dbt Node Selection, State, Defer and Retry Explained",
+  "deployment": "dbt in Production: Slim CI, Deployment, Orchestration and Governance"
 }
