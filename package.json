@@ -3,11 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "dbt — from a first model to reliable analytics engineering. A GraphL concept app: scenes (react-flow diagrams + code cards) and slides per section, rendered by @graphlearning/flow inside @graphlearning/shell.",
+  "description": "dbt \u2014 from a first model to reliable analytics engineering. A GraphL concept app: scenes (react-flow diagrams + code cards) and slides per section, rendered by @graphlearning/flow inside @graphlearning/shell.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "check": "node scripts/check-content.mjs",
+    "check:density": "node scripts/check-density.mjs",
     "preview": "vite preview",
     "build:snapshot": "vite build --outDir dist-snapshot",
     "capture": "vite preview --outDir dist-snapshot --port 5181",

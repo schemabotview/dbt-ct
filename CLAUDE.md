@@ -171,7 +171,13 @@ Levers: **add real content, not padding**; **restack** a board toward the pane's
 scene `padding` to 0.04 for boards that float, **raise** it (0.12–0.17) for tall boards that touch
 the eyebrow.
 
-These are read off the rendered route by eye — `check` models no density at all. The two ratios come
+**Measure them — `npm run check:density`** (dev server running; `PUPPETEER_EXECUTABLE_PATH` set to a
+local Chromium if puppeteer has none). It drives every route at 1920×1080 and measures the slide's
+rendered height and the scene's node bounding box; it exits non-zero on any frame off target. Do not
+trust the modelled slide height for the lower bound: `check`'s model runs **5–10 % high** against the
+render, so a slide modelling 850px renders at ~75 %. Author to a modelled **940–1000px** and confirm
+with the measurement. `check` still owns the upper bound (clipping) — `check` models no density at
+all. The two ratios come
 from one repo's ~80 frames of diagram-and-code-card boards, so a deliberately sparse board can sit
 under them. Targets, not thresholds.
 
@@ -179,9 +185,10 @@ under them. Targets, not thresholds.
 
 ```sh
 npm run build && npx tsc --noEmit && npm run check
+npm run check:density        # with `npm run dev` running
 ```
 
-All three are a **floor, not proof** — they pass on frames that are visually wrong. The rendered
+All four are a **floor, not proof** — they pass on frames that are visually wrong. The rendered
 route is the real bar, and the owner reviews it.
 
 ## Working agreement

@@ -7,6 +7,7 @@ export const projectAndProfile: Scene = {
   id: 'project-and-profile',
   title: 'Project file and connection profile',
   flow: 'TB',
+  padding: 0.17,
   nodes: [
     {
       id: 'project-yml',

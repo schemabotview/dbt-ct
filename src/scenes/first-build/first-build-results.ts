@@ -8,6 +8,7 @@ export const firstBuildResults: Scene = {
   id: 'first-build-results',
   title: 'What the first build produced',
   flow: 'TB',
+  padding: 0.17,
   nodes: [
     {
       id: 'tests-yml',
