@@ -3,6 +3,7 @@ import { sources } from './sources'
 import { models } from './models'
 import { quality } from './quality'
 import { jinja } from './jinja'
+import { incremental } from './incremental'
 import type { Course, Section } from './types'
 
 // Course registry, in syllabus order. Courses are added here as each is authored.
@@ -12,6 +13,7 @@ export const COURSES: Record<string, Course> = {
   [models.id]: models,
   [quality.id]: quality,
   [jinja.id]: jinja,
+  [incremental.id]: incremental,
 }
 
 export type { Course, Section }

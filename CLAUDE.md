@@ -33,7 +33,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 | 3 | `models` | Analytical Models and Materialization Choices | 7 | authored — wavs pending |
 | 4 | `quality` | Tests, Documentation, and Model Contracts | 8 | authored — wavs pending |
 | 5 | `jinja` | Jinja, Macros, and Reusable Compilation | 8 | authored — wavs pending |
-| 6 | `incremental` | Incremental Models and Historical State | 8 | not started |
+| 6 | `incremental` | Incremental Models and Historical State | 8 | authored — wavs pending |
 | 7 | `selection` | Selection, Artefacts, and Efficient Execution | 8 | not started |
 | 8 | `deployment` | Deployment, Collaboration, and Governance | 8 | not started |
 | 9 | `operations` | Operations, Failure Recovery, and Evolution | 7 | not started |
@@ -54,6 +54,9 @@ Course 4 sections: `generic-tests`, `singular-tests`, `severity-and-failures`, `
 
 Course 5 sections: `jinja-in-dbt`, `vars-and-loops`, `macros`, `hidden-dependencies`, `packages`,
 `dispatch`, `side-effects`, `python-models`.
+
+Course 6 sections: `is-incremental`, `watermarks`, `strategies`, `late-data`, `schema-changes`,
+`full-refresh`, `snapshots`, `snapshot-limits`.
 
 ## The recurring example
 
@@ -102,6 +105,11 @@ owner's decision, though new installs now default to **dbt v2** (the Rust engine
 `arguments:` (top-level form → `MissingArgumentsPropertyInGenericTestDeprecation`);
 `deprecation_date` is a version property, not a config; a contract on an ephemeral model does
 **not** error (so do not claim it does); dbt-snowflake does not implement `materialized_view`.
+
+**Course 6 example state:** `fct_payments` (incremental, merge on `payment_id`, 3-day lookback on
+`paid_at`), raw payments carry `paid_at`, `_loaded_at`, `currency`; `customers_snapshot` (YAML,
+check strategy on `country`). dbt-snowflake: default strategy merge; `insert_overwrite` replaces the
+whole table; microbatch needs `event_time` on its inputs.
 
 **How snippets are verified.** The course's example project is rebuilt in a scratch venv with the
 pinned pair: every YAML/SQL snippet must pass `dbt parse` with the Snowflake profile; compiled SQL is
@@ -155,6 +163,14 @@ is authored: id, shape (diagram / code card), courses that use it.
 | `dispatch` | dispatched macro + per-adapter compiled cards | jinja §6 |
 | `side-effects` | frozen `run_query` result + ways-Jinja-runs-SQL table + execute guard | jinja §7 |
 | `python-model` | Snowpark model + row (where-it-runs, SQL-or-Python table) | jinja §8 |
+| `two-paths` | incremental model + the two compiled paths | incremental §1 |
+| `watermark` | per-run reconciliation table + which-column band + boundary | incremental §2 |
+| `strategies` | Snowflake strategy table + "unique_key is not" column | incremental §3 |
+| `late-data` | late row + filter-outcome table (real numbers) + lookback fix | incremental §4 |
+| `schema-change` | on_schema_change options + real currency/delete result | incremental §5 |
+| `full-refresh` | reconcile SQL + repair column + bounded backfill | incremental §6 |
+| `snapshot` | snapshot YAML (check strategy) + two-run history rows | incremental §7 |
+| `snapshot-limits` | row (missed flip, hard_deletes table) + source-data warning | incremental §8 |
 
 `first-model` and `first-build-results` carry the recurring example's first state; later courses
 should extend these models rather than introduce new names.

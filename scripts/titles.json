@@ -4,5 +4,6 @@
   "sources": "dbt Sources, Freshness, Seeds and Project Structure Explained",
   "models": "dbt Data Modeling: Grain, Facts, Dimensions and Materializations",
   "quality": "dbt Tests, Unit Tests and Model Contracts Explained",
-  "jinja": "dbt Jinja and Macros Explained: Loops, Packages, Dispatch, Hooks"
+  "jinja": "dbt Jinja and Macros Explained: Loops, Packages, Dispatch, Hooks",
+  "incremental": "dbt Incremental Models and Snapshots: Late Data, Merge, SCD2"
 }
