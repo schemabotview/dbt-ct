@@ -6,6 +6,7 @@ import { jinja } from './jinja'
 import { incremental } from './incremental'
 import { selection } from './selection'
 import { deployment } from './deployment'
+import { operations } from './operations'
 import type { Course, Section } from './types'
 
 // Course registry, in syllabus order. Courses are added here as each is authored.
@@ -18,6 +19,7 @@ export const COURSES: Record<string, Course> = {
   [incremental.id]: incremental,
   [selection.id]: selection,
   [deployment.id]: deployment,
+  [operations.id]: operations,
 }
 
 export type { Course, Section }

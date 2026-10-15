@@ -36,7 +36,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 | 6 | `incremental` | Incremental Models and Historical State | 8 | authored — wavs pending |
 | 7 | `selection` | Selection, Artefacts, and Efficient Execution | 8 | authored — wavs pending |
 | 8 | `deployment` | Deployment, Collaboration, and Governance | 8 | authored — wavs pending |
-| 9 | `operations` | Operations, Failure Recovery, and Evolution | 7 | not started |
+| 9 | `operations` | Operations and Safe Evolution | 7 | authored — wavs pending |
 | 10 | `metrics` | Metrics, Integrated Design, and Continuation | 5 | not started |
 
 Course 1 sections, in order: `what-dbt-does`, `four-layers`, `project-and-profile`,
@@ -63,6 +63,9 @@ Course 7 sections: `graph-operators`, `test-selection`, `artefacts`, `state-comp
 
 Course 8 sections: `pull-requests`, `ci-targets`, `slim-ci`, `identities-and-grants`, `orchestration`,
 `release-ordering`, `hosted-vs-cli`, `packages-and-governance`.
+
+Course 9 sections: `monitoring`, `diagnosis`, `side-effects`, `incremental-recovery`, `upgrades`,
+`performance-regression`, `runbooks`.
 
 ## The recurring example
 
@@ -199,6 +202,13 @@ is authored: id, shape (diagram / code card), courses that use it.
 | `release-order` | row (release steps, compatible-or-not table) | deployment §6 |
 | `hosted-vs-cli` | comparison table + same-either-way column | deployment §7 |
 | `governance` | package-vs-project table + real Core error + telemetry flag | deployment §8 |
+| `monitoring` | signals table + finance-definition test + real breach (59 vs 25) | operations §1 |
+| `diagnosis` | real failed-mart log + row (where-to-look column, warehouse-state table) | operations §2 |
+| `rerun-effects` | real duplicated audit rows + rerun table + code-vs-data rollback | operations §3 |
+| `missed-window` | real watermark-jump timeline + backfill filter + recovery command | operations §4 |
+| `upgrades` | real dbt_utils rename error + upgrade-kinds table + compiled diff | operations §5 |
+| `regression` | compare script + real 9.3× timing table + prioritise band | operations §6 |
+| `runbook` | row (5-step runbook, retention table) | operations §7 |
 
 `first-model` and `first-build-results` carry the recurring example's first state; later courses
 should extend these models rather than introduce new names.
