@@ -37,7 +37,7 @@ slide inside the density targets splits in two, and the split is recorded here).
 | 7 | `selection` | Selection, Artefacts, and Efficient Execution | 8 | authored — wavs pending |
 | 8 | `deployment` | Deployment, Collaboration, and Governance | 8 | authored — wavs pending |
 | 9 | `operations` | Operations and Safe Evolution | 7 | authored — wavs pending |
-| 10 | `metrics` | Metrics, Integrated Design, and Continuation | 5 | not started |
+| 10 | `metrics` | Metrics, Integrated Design, and Continuation | 5 | authored — wavs pending |
 
 Course 1 sections, in order: `what-dbt-does`, `four-layers`, `project-and-profile`,
 `first-model-and-ref`, `compile-vs-run`, `first-results`. The template's `demo` course was deleted
@@ -66,6 +66,9 @@ Course 8 sections: `pull-requests`, `ci-targets`, `slim-ci`, `identities-and-gra
 
 Course 9 sections: `monitoring`, `diagnosis`, `side-effects`, `incremental-recovery`, `upgrades`,
 `performance-regression`, `runbooks`.
+
+Course 10 sections: `shared-definitions`, `semantic-models`, `alternatives`, `decision-records`,
+`continuation`.
 
 ## The recurring example
 
@@ -104,7 +107,8 @@ owner's decision, though new installs now default to **dbt v2** (the Rust engine
 | --- | --- | --- |
 | `dbt-core` | `~=1.12.0` | 1.12.6 |
 | `dbt-snowflake` | `~=1.12.0` | 1.12.3 |
-| packages (dbt_utils etc.) | none yet | — |
+| `dbt_utils` (course 5) | git tag `1.3.0` → commit `e164c645…` | — (Hub unreachable here) |
+| `dbt-metricflow` (course 10) | `0.15.0` — installs beside dbt-core 1.12.6 | 0.15.0 |
 
 **Example project state after course 3:** `stg_orders`, `stg_payments`, `stg_customers` (with
 `country`), `int_order_payments` (ephemeral), `fct_orders` (with `amount`), `dim_customers`, seed
@@ -125,6 +129,11 @@ whole table; microbatch needs `event_time` on its inputs.
 `source_status:fresher+` needs the previous run's `sources.json` in `--state`; `dbt deps` ignores a
 `projects:` entry and a cross-project `ref` fails in Core; dbt Core attempts anonymous usage
 tracking unless `flags: send_anonymous_usage_stats: false` (or `DO_NOT_TRACK=1`).
+
+**Course 10 facts confirmed (1.12.6 + dbt-metricflow 0.15.0):** semantic models, a filtered simple
+metric and a time spine parse with no deprecations; every measure needs an `agg_time_dimension`;
+`mf query` resolves many-to-one joins (revenue by `customer__country`) and refuses one-to-many
+("fan-out join support is pending").
 
 **How snippets are verified.** The course's example project is rebuilt in a scratch venv with the
 pinned pair: every YAML/SQL snippet must pass `dbt parse` with the Snowflake profile; compiled SQL is
@@ -209,6 +218,11 @@ is authored: id, shape (diagram / code card), courses that use it.
 | `upgrades` | real dbt_utils rename error + upgrade-kinds table + compiled diff | operations §5 |
 | `regression` | compare script + real 9.3× timing table + prioritise band | operations §6 |
 | `runbook` | row (5-step runbook, retention table) | operations §7 |
+| `two-revenues` | two-reports table + revenue metric YAML + real `mf query` | metrics §1 |
+| `semantic-model` | semantic model YAML + column (real by-country, real fan-out refusal) | metrics §2 |
+| `alternatives` | row (product column, alternatives table) | metrics §3 |
+| `decision-record` | ADR for `fct_payments` + migration-checks table | metrics §4 |
+| `continuation` | row (practise column, left-out table) | metrics §5 |
 
 `first-model` and `first-build-results` carry the recurring example's first state; later courses
 should extend these models rather than introduce new names.
