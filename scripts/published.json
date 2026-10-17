@@ -1,0 +1,56 @@
+{
+  "channelId": "UCo9qk2FZeoS79LHYYDln6Tw",
+  "verifiedAt": "2026-10-16",
+  "courses": {
+    "first-build": {
+      "videoId": "I5GNswIhrc4",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    },
+    "sources": {
+      "videoId": "1xgnRcIt2a0",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    },
+    "models": {
+      "videoId": "ypJKCYPKWe0",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    },
+    "quality": {
+      "videoId": "sneLwByPKN4",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    },
+    "jinja": {
+      "videoId": "FLjjiajGh8c",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    },
+    "incremental": {
+      "videoId": "1gd8e_XSC6c",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    },
+    "selection": {
+      "videoId": "rbzIUFYCWBw",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    },
+    "deployment": {
+      "videoId": "-xJztWLSoss",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    },
+    "operations": {
+      "videoId": "WnxbUOrgNgM",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    },
+    "metrics": {
+      "videoId": "DnAFuO8mQqc",
+      "publishedAt": "2026-10-16",
+      "visibility": "public"
+    }
+  }
+}
